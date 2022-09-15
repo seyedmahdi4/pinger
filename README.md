@@ -6,5 +6,13 @@ This program is written with tcp socket and is compatible with netcat. You must 
 ```
 pip install notify2 playsound
 ```
+### use GUI:
+install TK for debian bases
+```
+sudo apt install python3-tk 
+```
+install TK for arch bases
+```
+sudo pacman -S tk
+```
 
-TODO: very TODO need
