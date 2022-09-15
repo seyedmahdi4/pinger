@@ -13,15 +13,6 @@ port = 8002
 notify2.init('Pinger')
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-if len(sys.argv) == 1:
-    print("use: ./pinger YOUR_NICKNAME")
-    sys.exit(1)
-
-nickname = sys.argv[1]
-
-if len(sys.argv) == 3:
-    nick_for_ping = sys.argv[2]
-
 
 def notif(msg):
     n = notify2.Notification(msg, icon="bell")
@@ -29,7 +20,7 @@ def notif(msg):
     playsound('notif.wav')
 
 
-def connecting():
+def connecting(nickname):
     client.connect((host, port))
 
     message = client.recv(16).decode('ascii')
@@ -38,8 +29,8 @@ def connecting():
 
     message = client.recv(16).decode('ascii')
     if message == "OK":
-        print("ok")
-        write_thread.start()
+        if __name__ == "__main__":
+            write_thread.start()
     return client
 
 
@@ -81,7 +72,15 @@ def write():
         send_msg(message)
 
 
-write_thread = threading.Thread(target=write)
-receive_thread = threading.Thread(target=pinger)
-client = connecting()
-receive_thread.start()
+if __name__ == "__main__":
+    if len(sys.argv) == 1:
+        print("use: ./pinger YOUR_NICKNAME")
+        sys.exit(1)
+    nickname = sys.argv[1]
+    if len(sys.argv) == 3:
+        nick_for_ping = sys.argv[2]
+
+    write_thread = threading.Thread(target=write)
+    receive_thread = threading.Thread(target=pinger)
+    client = connecting(nickname)
+    receive_thread.start()
