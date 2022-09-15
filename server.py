@@ -3,47 +3,52 @@ import threading
 
 # Connection Data
 host = '127.0.0.1'
-port = 55556
+port = 55555
+users = {}
 
-# Starting Server
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind((host, port))
 server.listen()
 
 lock = threading.Lock()
 
-users= {}
 
-def ping(nickname,yaro):
+def ping(nickname, sender):
     try:
-        client = users[nickname]
+        sender_client = users[sender]
+        receiver_client = users[nickname]
         with lock:
-            client.send(f'PING {yaro}'.encode('ascii'))
+            if nickname == sender:
+                sender_client.send("Why?".encode('ascii'))
+            else:
+                receiver_client.send(f'PING From {sender}'.encode('ascii'))
+                sender_client.send(f'PINGED {nickname}'.encode('ascii'))
     except:
-        pass
-        #with lock:
-        #client.send(f'KEZB NICK'.encode('ascii'))
-        #print("kezb")
+        with lock:
+            sender_client.send(f'404'.encode('ascii'))
+
 
 def handle(client):
     while True:
         try:
-            nick = client.recv(16)
-            yaro ,nick = nick.decode().split(": ")
-            ping(nick,yaro)
+            sender = {v: k for k, v in users.items()}[client]
+            nick = client.recv(16).decode()
+            ping(nick, sender)
         except:
-            # remove nick az dic
+            users.pop(sender)
             client.close()
             break
+
 
 def receive():
     while True:
         client, address = server.accept()
         client.send('NICK'.encode('ascii'))
         nickname = client.recv(1024).decode('ascii')
-        users.update({nickname:client})
+        users.update({nickname: client})
         client.send('OK'.encode('ascii'))
         thread = threading.Thread(target=handle, args=(client,))
         thread.start()
+
 
 receive()
