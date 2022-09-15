@@ -58,7 +58,6 @@ l = Label(text="Your nickname?", font=('Times New Roman', 15, 'bold'))
 
 inputtxt = Text(root, height=1,
                 width=15,
-                bg="light yellow",
                 font=('Times New Roman', 16))
 
 Display = Button(root, height=1,
