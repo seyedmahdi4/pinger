@@ -2,17 +2,16 @@
 
 This program is written with tcp socket and is compatible with netcat. You must use pinger.py to receive notifications
 
-###### Note: You need to install notify2 and playsound before using to receive notifications
+###### Instalation
+You need to install notify2 and playsound before using to receive notifications
 ```
 pip install notify2 playsound
 ```
-### use GUI:
-install TK for debian bases
+### use GUI in debian bases:
 ```
 sudo apt install python3-tk 
 ```
-install TK for arch bases
+### use GUI in debian bases:
 ```
 sudo pacman -S tk
 ```
-
