@@ -17,12 +17,12 @@ def ping(nickname, sender):
         sender_client = users[sender]
         receiver_client = users[nickname]
         if nickname == sender:
-            sender_client.send("Why?".encode('ascii'))
+            sender_client.send("Why?".encode('utf8'))
         else:
-            receiver_client.send(f'PING From {sender}'.encode('ascii'))
-            sender_client.send(f'PINGED {nickname}'.encode('ascii'))
+            receiver_client.send(f'PING From {sender}'.encode('utf8'))
+            sender_client.send(f'PINGED {nickname}'.encode('utf8'))
     except:
-        sender_client.send(f'404'.encode('ascii'))
+        sender_client.send(f'404'.encode('utf8'))
 
 
 def handle(client):
@@ -43,10 +43,10 @@ def handle(client):
 def receive():
     while True:
         client, address = server.accept()
-        client.send('NICK'.encode('ascii'))
+        client.send('NICK'.encode('utf8'))
         nickname = client.recv(1024).decode('ascii')
         users.update({nickname: client})
-        client.send('OK'.encode('ascii'))
+        client.send('OK'.encode('utf8'))
         thread = threading.Thread(target=handle, args=(client,))
         thread.start()
 

@@ -24,7 +24,7 @@ def connect(nickname):
 
     message = client.recv(16).decode('ascii')
     if message == 'NICK':
-        client.send(nickname.encode('ascii'))
+        client.send(nickname.encode('utf8'))
 
     message = client.recv(16).decode('ascii')
     if message == "OK":
@@ -76,7 +76,7 @@ def pinger():
 
 def send_nick(nick):
     # A function for send nickname for sevrer
-    client.send(nick.encode('ascii'))
+    client.send(nick.encode('utf8'))
 
 
 def write():
