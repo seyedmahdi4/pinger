@@ -19,7 +19,7 @@ def notif(msg):
     notification.title = "pinger"
     notification.message = msg
     notification.audio = "notif.wav"
-    #notification.icon = "bell.gif"
+    notification.icon = "bell.png"
     notification.send()
 
 
