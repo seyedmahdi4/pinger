@@ -15,7 +15,7 @@ sudo apt install python3-tk
 ```
 sudo pacman -S tk
 ```
-###### cli usage:
+###### CLI usage:
 ```
 ./pinger.py YOUR_NICKNAME
 ```
