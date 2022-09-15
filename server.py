@@ -2,11 +2,12 @@ import socket
 import threading
 
 # Connection Data
-host = '127.0.0.1'
-port = 55555
+host = '0.0.0.0'
+port = 8003
 users = {}
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 server.bind((host, port))
 server.listen()
 
