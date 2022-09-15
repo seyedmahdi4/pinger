@@ -6,8 +6,8 @@ import notify2
 from playsound import playsound
 
 host = '132.145.109.138'
-port = 8003
-host = '127.0.0.1'
+port = 8002
+#host = '127.0.0.1'
 # port = 55555
 
 notify2.init('Pinger')
