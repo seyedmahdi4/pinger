@@ -1,19 +1,22 @@
 #!/usr/bin/python3
 import sys
 import threading
-from pinger import connecting, send_msg, notif
+from pinger import connect, send_nick, notif
 from tkinter import Tk, Label, Text, Button, END, mainloop
 
-
 connected = 0
-root = Tk()
-root.geometry("200x145")
-root.title(" Pinger ")
-
 client = None
+nickname = ""
+
+# tkinter setup
+root = Tk()
+root.geometry("220x145")
+root.title(" Pinger! ")
 
 
 def pinger():
+    # A function for receive data from server
+    # you found more comment in pinger.py
     while True:
         try:
             message = client.recv(16).decode('ascii')
@@ -38,19 +41,28 @@ def pinger():
 
 
 def Take_input():
-    global client, connected
+    # A function for take input such as nickname
+    global client, connected, nickname
+    # Get input
     INPUT = inputtxt.get("1.0", "end-1c").strip()
+    # Check input not empty
     if INPUT == '':
         return 0
+    # this segment is executed if app not connect to server
     if not connected:
-        client = connecting(INPUT)
-        Output.config(text=f"Connect with {INPUT}")
+        nickname = INPUT
+        client = connect(nickname)
+        Output.config(text=f"Connect with {nickname}")
+        root.title(f" Pinger! ({nickname})")
         l.config(text="Nick for Ping:")
-        Display.config(text="Ping!")
-        connected = 1
+        Button0.config(text="Ping!")
+        # Start ping receiver
         receive_thread.start()
+        connected = 1
+    # this segment is executed if app connected to server
     else:
-        send_msg(INPUT)
+        send_nick(INPUT)
+    # flush textbox
     inputtxt.delete('1.0', END)
 
 
@@ -60,19 +72,21 @@ inputtxt = Text(root, height=1,
                 width=15,
                 font=('Times New Roman', 16))
 
-Display = Button(root, height=1,
+Button0 = Button(root, height=1,
                  width=13,
                  text="start",
                  command=lambda: Take_input(),
                  font=('Times New Roman', 17))
 
 Output = Label(text="")
-inputtxt.bind('<Return>', lambda _: Take_input())
+
 l.pack(padx=4, pady=4)
+inputtxt.bind('<Return>', lambda _: Take_input())
 inputtxt.pack(padx=4, pady=4)
-Display.pack(padx=4, pady=4)
+Button0.pack(padx=4, pady=4)
 Output.pack(padx=4, pady=4)
 
+# Thread definition
 receive_thread = threading.Thread(target=pinger)
 
 mainloop()

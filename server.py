@@ -11,22 +11,18 @@ server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 server.bind((host, port))
 server.listen()
 
-lock = threading.Lock()
-
 
 def ping(nickname, sender):
     try:
         sender_client = users[sender]
         receiver_client = users[nickname]
-        with lock:
-            if nickname == sender:
-                sender_client.send("Why?".encode('ascii'))
-            else:
-                receiver_client.send(f'PING From {sender}'.encode('ascii'))
-                sender_client.send(f'PINGED {nickname}'.encode('ascii'))
+        if nickname == sender:
+            sender_client.send("Why?".encode('ascii'))
+        else:
+            receiver_client.send(f'PING From {sender}'.encode('ascii'))
+            sender_client.send(f'PINGED {nickname}'.encode('ascii'))
     except:
-        with lock:
-            sender_client.send(f'404'.encode('ascii'))
+        sender_client.send(f'404'.encode('ascii'))
 
 
 def handle(client):
@@ -36,7 +32,10 @@ def handle(client):
             nick = client.recv(16).decode()
             ping(nick, sender)
         except:
-            users.pop(sender)
+            try:
+                users.pop(sender)
+            except:
+                pass
             client.close()
             break
 

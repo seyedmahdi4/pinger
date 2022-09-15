@@ -4,12 +4,8 @@ import sys
 import threading
 from notifypy import Notify
 
-
-
 host = '132.145.109.138'
 port = 8002
-#host = '127.0.0.1'
-#port = 55555
 
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -23,7 +19,7 @@ def notif(msg):
     notification.send()
 
 
-def connecting(nickname):
+def connect(nickname):
     client.connect((host, port))
 
     message = client.recv(16).decode('ascii')
@@ -38,52 +34,72 @@ def connecting(nickname):
 
 
 def pinger():
+    # A function for receive data from server
+
     while True:
         try:
             message = client.recv(16).decode('ascii')
+
+            # When you pinged
             if message[:5] == "PING ":
                 print(message)
                 notif(message)
                 print("nick for ping:")
+
+            # When ping your frined
             elif message[:6] == "PINGED":
                 print(message)
+
+            # When ping yourself !!
             elif message == "Why?":
                 print(message)
                 print("nick for ping:")
+
+            # When nickname notfound !
             elif message == "404":
                 print(message)
                 print("nick for ping:")
+            
+            # for debug :)
             else:
                 print("unknown message: ", message)
                 client.close()
                 print("connection close")
                 sys.exit(1)
-        except:
+
+        except Exception as e:
             print("An error occured!")
+            print(e)
             client.close()
             sys.exit(1)
 
 
-def send_msg(message):
-    client.send(message.encode('ascii'))
+def send_nick(nick):
+    # A function for send nickname for sevrer
+    client.send(nick.encode('ascii'))
 
 
 def write():
+    # A function for get input
     while True:
         print("nick for ping:")
-        message = input()
-        send_msg(message)
+        nick = input()
+        send_nick(nick)
 
 
 if __name__ == "__main__":
+    # Check args
     if len(sys.argv) == 1:
         print("use: ./pinger YOUR_NICKNAME")
         sys.exit(1)
     nickname = sys.argv[1]
-    if len(sys.argv) == 3:
-        nick_for_ping = sys.argv[2]
 
+    # Thread definition
     write_thread = threading.Thread(target=write)
     receive_thread = threading.Thread(target=pinger)
-    client = connecting(nickname)
+
+    # Connect to server
+    client = connect(nickname)
+
+    # Start ping receiver
     receive_thread.start()
