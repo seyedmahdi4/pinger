@@ -6,7 +6,7 @@ This program is written with tcp socket and is compatible with netcat. You must 
 You need to install notify2 and playsound before using to receive notifications
   - differ with main repo (need plyer)
 ```
-pip install plyer
+pip install notify-py
 ```
 ### use GUI in debian bases:
 ```

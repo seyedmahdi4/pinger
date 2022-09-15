@@ -2,7 +2,7 @@
 import socket
 import sys
 import threading
-from plyer import notification
+from notifypy import Notify
 
 
 
@@ -15,8 +15,12 @@ client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 
 def notif(msg):
-    notification.notify(title = 'pinger :',message = msg ,app_icon = None,timeout = 10,)
-
+    notification = Notify()
+    notification.title = "pinger"
+    notification.message = msg
+    notification.audio = "notif.wav"
+    # notification.icon = "icon.png"
+    notification.send()
 
 
 def connecting(nickname):
