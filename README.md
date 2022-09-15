@@ -12,7 +12,15 @@ pip install notify-py
 ```
 sudo apt install python3-tk 
 ```
-### use GUI in debian bases:
+### use GUI in arch bases:
 ```
 sudo pacman -S tk
+```
+cli usage:
+```
+./pinger.py YOUR_NICKNAME
+```
+GUI usage:
+```
+./pinger-gui
 ```
