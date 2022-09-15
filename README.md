@@ -4,8 +4,9 @@ This program is written with tcp socket and is compatible with netcat. You must 
 
 ###### Instalation
 You need to install notify2 and playsound before using to receive notifications
+  - differ with main repo (need plyer)
 ```
-pip install notify2 playsound
+pip install plyer
 ```
 ### use GUI in debian bases:
 ```

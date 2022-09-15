@@ -2,22 +2,21 @@
 import socket
 import sys
 import threading
-import notify2
-from playsound import playsound
+from plyer import notification
+
+
 
 host = '132.145.109.138'
 port = 8002
 #host = '127.0.0.1'
-# port = 55555
+#port = 55555
 
-notify2.init('Pinger')
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 
 def notif(msg):
-    n = notify2.Notification(msg, icon="bell")
-    n.show()
-    playsound('notif.wav')
+    notification.notify(title = 'pinger :',message = msg ,app_icon = None,timeout = 10,)
+
 
 
 def connecting(nickname):
