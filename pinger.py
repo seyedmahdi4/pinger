@@ -14,7 +14,8 @@ notify2.init('Pinger')
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 if len(sys.argv) == 1:
-    print("use: ")
+    print("use: ./pinger YOUR_NICKNAME")
+    sys.exit(1)
 
 nickname = sys.argv[1]
 
