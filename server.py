@@ -28,8 +28,11 @@ def ping(nickname, sender):
 def handle(client):
     while True:
         try:
-            sender = {v: k for k, v in users.items()}[client]
             nick = client.recv(16).decode('utf8')
+            if nick == "PING!":
+                client.send('PONG!'.encode('utf8'))
+                continue
+            sender = {v: k for k, v in users.items()}[client]
             ping(nick, sender)
         except:
             try:
