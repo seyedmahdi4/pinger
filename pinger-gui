@@ -1,8 +1,10 @@
 #!/usr/bin/python3
+from curses import COLOR_WHITE
 import sys
 import threading
+from turtle import color
 from pinger import connect, send_nick, notif
-from tkinter import Tk, Label, Text, Button, END, mainloop
+from tkinter import Tk, Label, Text, Button, PhotoImage, END, mainloop
 
 connected = 0
 client = None
@@ -10,13 +12,10 @@ nickname = ""
 
 # tkinter setup
 root = Tk()
-root.geometry("220x145")
-root.title(" Pinger! ")
-root['bg'] = 'white'
-
-
-def move_window(event):
-    root.geometry('+{0}+{1}'.format(event.x_root, event.y_root))
+root.geometry("220x150")
+root.title("Pinger! ")
+root['bg'] = '#26242f'
+root.iconphoto(False, PhotoImage(file='bell.png'))
 
 
 def pinger():
@@ -58,7 +57,7 @@ def Take_input():
         nickname = INPUT
         client = connect(nickname)
         Output.config(text=f"Connect with {nickname}")
-        root.title(f" Pinger! ({nickname})")
+        root.title(f"Pinger! ({nickname})")
         l.config(text="Nick for Ping:")
         Button0.config(text="Ping!")
         # Start ping receiver
@@ -71,29 +70,33 @@ def Take_input():
     inputtxt.delete('1.0', END)
 
 
-l = Label(text="Your nickname?", font=('Times New Roman', 15, 'bold'))
+l = Label(text="Your nickname?",
+          font=('Times New Roman', 15, 'bold'),
+          fg="white",
+          bg="#26242f")
 
 inputtxt = Text(root, height=1,
                 width=15,
-                font=('Times New Roman', 16))
+                font=('Times New Roman', 16),
+                fg="white",
+                bg="#26242f")
 
 Button0 = Button(root, height=1,
                  width=13,
                  text="start",
                  command=lambda: Take_input(),
-                 font=('Times New Roman', 17))
+                 font=('Times New Roman', 17),
+                 fg="white",
+                 bg="#26242f")
 
-Output = Label(text="")
-
-l['bg'] = 'white'
-inputtxt['bg'] = 'white'
-Button0['bg'] = 'white'
-Output['bg'] = 'white'
+Output = Label(text="",
+               fg="white",
+               bg="#26242f")
 
 l.pack(padx=4, pady=4)
 inputtxt.bind('<Return>', lambda _: Take_input())
 inputtxt.pack(padx=4, pady=4)
-Button0.pack(padx=4, pady=4)
+Button0.pack(padx=5, pady=5)
 Output.pack(padx=4, pady=4)
 
 # Thread definition
