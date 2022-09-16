@@ -22,11 +22,11 @@ def notif(msg):
 def connect(nickname):
     client.connect((host, port))
 
-    message = client.recv(16).decode('ascii')
+    message = client.recv(16).decode('utf8')
     if message == 'NICK':
         client.send(nickname.encode('utf8'))
 
-    message = client.recv(16).decode('ascii')
+    message = client.recv(16).decode('utf8')
     if message == "OK":
         if __name__ == "__main__":
             write_thread.start()
@@ -38,7 +38,7 @@ def pinger():
 
     while True:
         try:
-            message = client.recv(16).decode('ascii')
+            message = client.recv(16).decode('utf8')
 
             # When you pinged
             if message[:5] == "PING ":
@@ -59,7 +59,7 @@ def pinger():
             elif message == "404":
                 print(message)
                 print("nick for ping:")
-            
+
             # for debug :)
             else:
                 print("unknown message: ", message)

@@ -29,7 +29,7 @@ def handle(client):
     while True:
         try:
             sender = {v: k for k, v in users.items()}[client]
-            nick = client.recv(16).decode()
+            nick = client.recv(16).decode('utf8')
             ping(nick, sender)
         except:
             try:
@@ -44,7 +44,7 @@ def receive():
     while True:
         client, address = server.accept()
         client.send('NICK'.encode('utf8'))
-        nickname = client.recv(1024).decode('ascii')
+        nickname = client.recv(512).decode('utf8')
         users.update({nickname: client})
         client.send('OK'.encode('utf8'))
         thread = threading.Thread(target=handle, args=(client,))
