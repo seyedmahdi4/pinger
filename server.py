@@ -42,13 +42,20 @@ def handle(client):
 
 def receive():
     while True:
-        client, address = server.accept()
-        client.send('NICK'.encode('utf8'))
-        nickname = client.recv(512).decode('utf8')
-        users.update({nickname: client})
-        client.send('OK'.encode('utf8'))
-        thread = threading.Thread(target=handle, args=(client,))
-        thread.start()
+        try:
+            client, address = server.accept()
+            client.send('NICK'.encode('utf8'))
+            nickname = client.recv(512).decode('utf8')
+            users.update({nickname: client})
+            client.send('OK'.encode('utf8'))
+            thread = threading.Thread(target=handle, args=(client,))
+            thread.start()
+        except:
+            try:
+                client.send('500'.encode('utf8'))
+                client.close()
+            except:
+                client.close()
 
 
 receive()
