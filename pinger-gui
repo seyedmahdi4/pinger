@@ -12,6 +12,11 @@ nickname = ""
 root = Tk()
 root.geometry("220x145")
 root.title(" Pinger! ")
+root['bg'] = 'white'
+
+
+def move_window(event):
+    root.geometry('+{0}+{1}'.format(event.x_root, event.y_root))
 
 
 def pinger():
@@ -19,7 +24,7 @@ def pinger():
     # you found more comment in pinger.py
     while True:
         try:
-            message = client.recv(16).decode('ascii')
+            message = client.recv(16).decode('utf8')
             if message[:5] == "PING ":
                 Output.config(text=message)
                 notif(message)
@@ -79,6 +84,11 @@ Button0 = Button(root, height=1,
                  font=('Times New Roman', 17))
 
 Output = Label(text="")
+
+l['bg'] = 'white'
+inputtxt['bg'] = 'white'
+Button0['bg'] = 'white'
+Output['bg'] = 'white'
 
 l.pack(padx=4, pady=4)
 inputtxt.bind('<Return>', lambda _: Take_input())
