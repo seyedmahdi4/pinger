@@ -60,6 +60,10 @@ def pinger():
                 print(message)
                 print("nick for ping:")
 
+            elif message == "PONG!":
+                print(message)
+                print("nick for ping:")
+
             # for debug :)
             else:
                 print("unknown message: ", message)

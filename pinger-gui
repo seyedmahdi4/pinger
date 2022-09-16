@@ -33,6 +33,8 @@ def pinger():
                 Output.config(text=message)
             elif message == "404":
                 Output.config(text=message)
+            elif message == "PONG!":
+                Output.config(text=message)
             else:
                 print("unknown message: ", message)
                 client.close()
