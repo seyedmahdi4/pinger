@@ -1,8 +1,6 @@
 #!/usr/bin/python3
-from curses import COLOR_WHITE
 import sys
 import threading
-from turtle import color
 from pinger import connect, send_nick, notif
 from tkinter import Tk, Label, Text, Button, PhotoImage, END, mainloop
 
