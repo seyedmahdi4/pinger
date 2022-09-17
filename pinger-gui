@@ -17,7 +17,8 @@ root.iconphoto(False, PhotoImage(file='bell.png'))
 
 
 def on_closing():
-    client.close()
+    if client == None:
+        client.close()
     root.destroy()
     _exit(0)
 
