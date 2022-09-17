@@ -1,6 +1,6 @@
 #!/usr/bin/python3
-import sys
-import threading
+from os import _exit
+from threading import Thread
 from pinger import connect, send_nick, notif
 from tkinter import Tk, Label, Text, Button, PhotoImage, END, mainloop
 
@@ -17,8 +17,9 @@ root.iconphoto(False, PhotoImage(file='bell.png'))
 
 
 def on_closing():
+    client.close()
     root.destroy()
-    sys.exit(1)
+    _exit(0)
 
 
 def pinger():
@@ -40,16 +41,11 @@ def pinger():
                 Output.config(text=message)
             else:
                 print("unknown message: ", message)
-                client.close()
-                print("connection close")
-                root.destroy()
-                sys.exit(1)
+                on_closing()
         except Exception as e:
             print("An error occured!")
             print(e)
-            client.close()
-            root.destroy()
-            sys.exit(1)
+            on_closing()
 
 
 def Take_input():
@@ -107,8 +103,10 @@ inputtxt.pack(padx=4, pady=4)
 Button0.pack(padx=5, pady=5)
 Output.pack(padx=4, pady=4)
 
-# Thread definition
-receive_thread = threading.Thread(target=pinger)
+# call on_closing function when close it with mouse
 root.protocol("WM_DELETE_WINDOW", on_closing)
+
+# Thread definition
+receive_thread = Thread(target=pinger)
 
 mainloop()
