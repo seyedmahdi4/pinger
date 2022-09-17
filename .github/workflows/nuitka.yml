@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
+        os: [ubuntu-latest, windows-latest]
       
     runs-on: ${{ matrix.os }}
     
@@ -44,7 +44,7 @@ jobs:
           script-name: pinger-gui
           onefile: true
           enable-plugins: tk-inter
-          #disable-console: true
+          disable-console: true
           windows-icon-from-ico: bell.ico
           # macos-create-app-bundle: ${{ runner.os == 'macOS' }}
 
