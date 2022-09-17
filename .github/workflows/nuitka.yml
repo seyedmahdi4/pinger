@@ -14,8 +14,13 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
-
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+      
+    runs-on: ${{ matrix.os }}
+    
     steps:
       # Check-out repository
       - uses: actions/checkout@v3
@@ -23,17 +28,29 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+          python-version: '3.8' # Version range or exact version of a Python version to use, using SemVer's version range syntax
           architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
-
+          cache: 'pip'
+          cache-dependency-path: |
+            **/requirements*.txt
+      # Install dependencies
+      - name: Install Dependencies
+        run: |
+          pip install -r requirements.txt
       # Build python script into a stand-alone exe
       - uses: jimkring/python-script-to-exe@v0.2.0
         with:
           script-name: pinger-gui
-      
-      # Uploads artifact
-      - name: Upload Artifact
+          onefile: true
+          enable-plugins: tk-inter
+          # macos-create-app-bundle: ${{ runner.os == 'macOS' }}
+
+      # Uploads artifacts
+      - name: "Upload Artifacts"
         uses: actions/upload-artifact@v3
         with:
-          name: exe
-          path: build/pinger-gui.exe
+          name: ${{ runner.os }} Build
+          path: |
+            build/*.exe
+            build/*.bin
+            build/*.app/**/*
