@@ -17,8 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest]
-        #os: [macos-latest, ubuntu-latest, windows-latest]
+        os: [macos-latest, ubuntu-latest, windows-latest]
       
     runs-on: ${{ matrix.os }}
     
@@ -46,7 +45,7 @@ jobs:
           onefile: true
           enable-plugins: tk-inter
           disable-console: true
-          windows-icon-from-ico: bell.png
+          windows-icon-from-ico: bell.ico
           # macos-create-app-bundle: ${{ runner.os == 'macOS' }}
 
       # Uploads artifacts
