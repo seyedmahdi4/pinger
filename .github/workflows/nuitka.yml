@@ -45,6 +45,8 @@ jobs:
           script-name: pinger-gui
           onefile: true
           enable-plugins: tk-inter
+          disable-console: true
+          windows-icon-from-ico: bell.png
           # macos-create-app-bundle: ${{ runner.os == 'macOS' }}
 
       # Uploads artifacts
