@@ -16,6 +16,11 @@ root['bg'] = '#26242f'
 root.iconphoto(False, PhotoImage(file='bell.png'))
 
 
+def on_closing():
+    root.destroy()
+    sys.exit(1)
+
+
 def pinger():
     # A function for receive data from server
     # you found more comment in pinger.py
@@ -37,10 +42,13 @@ def pinger():
                 print("unknown message: ", message)
                 client.close()
                 print("connection close")
+                root.destroy()
                 sys.exit(1)
-        except:
+        except Exception as e:
             print("An error occured!")
+            print(e)
             client.close()
+            root.destroy()
             sys.exit(1)
 
 
@@ -101,5 +109,6 @@ Output.pack(padx=4, pady=4)
 
 # Thread definition
 receive_thread = threading.Thread(target=pinger)
+root.protocol("WM_DELETE_WINDOW", on_closing)
 
 mainloop()
