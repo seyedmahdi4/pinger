@@ -1,8 +1,14 @@
 #!/usr/bin/python3
-from os import _exit
+from os import _exit , chdir
 from threading import Thread
 from pinger import connect, send_nick, notif
 from tkinter import Tk, Label, Text, Button, PhotoImage, END, mainloop
+
+try:
+    from sys import _MEIPASS
+    chdir(_MEIPASS)
+except:
+    pass
 
 connected = 0
 client = None
@@ -17,7 +23,7 @@ root.iconphoto(False, PhotoImage(file='bell.png'))
 
 
 def on_closing():
-    if client == None:
+    if client != None:
         client.close()
     root.destroy()
     _exit(0)
