@@ -20,11 +20,9 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+          python-version: '3.9' # Version range or exact version of a Python version to use, using SemVer's version range syntax
           architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
           cache: 'pip'
-          cache-dependency-path: |
-            **/requirements*.txt
       # Install dependencies
       - name: Install Dependencies
         run: |
@@ -34,15 +32,7 @@ jobs:
           pip install pyinstaller
       - name: build package
         run: |
-          pyinstaller --log-level=WARN \
-            --onefile --nowindow \
-            --add-data="bell.png:." \
-            --add-data="notif.wav:." \
-            --clean --noconfirm \
-            --icon=bell.png \
-            --noconsole --windowed \
-            --hiddenimport=tkinter \
-            pinger-gui
+          pyinstaller pinger-gui.spec
 
     #  uses: JackMcKew/pyinstaller-action-linux@main
     #  with:
