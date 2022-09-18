@@ -33,7 +33,7 @@ def handle(client):
                 client.send('PONG!'.encode('utf8'))
                 continue
             sender = {v: k for k, v in users.items()}[client]
-            ping(nick, sender)
+            ping(nick[:17], sender)
         except:
             try:
                 users.pop(sender)
