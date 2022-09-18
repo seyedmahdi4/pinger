@@ -5,7 +5,7 @@ block_cipher = None
 
 
 a = Analysis(
-    ['pinger-gui.py'],
+    ['pinger-gui'],
     pathex=[],
     binaries=[],
     datas=[('bell.png', '.'), ('notif.wav', '.')],
