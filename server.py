@@ -19,7 +19,7 @@ def ping(nickname, sender):
         if nickname == sender:
             sender_client.send("Why?".encode('utf8'))
         else:
-            receiver_client.send(f'PING From {sender}'.encode('utf8'))
+            receiver_client.send(f'PING From {sender}'.encode('utf8')[:16])
             sender_client.send(f'PINGED {nickname}'.encode('utf8'))
     except:
         sender_client.send(f'404'.encode('utf8'))
@@ -33,7 +33,7 @@ def handle(client):
                 client.send('PONG!'.encode('utf8'))
                 continue
             sender = {v: k for k, v in users.items()}[client]
-            ping(nick[:17], sender)
+            ping(nick, sender)
         except:
             try:
                 users.pop(sender)
