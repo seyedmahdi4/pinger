@@ -6,18 +6,49 @@ on:
 
 jobs:
   build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
 
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
 
     steps:
-    - uses: actions/checkout@v2
+      # Check-out repository
+      - uses: actions/checkout@v3
 
-    - name: Package Application
-      uses: JackMcKew/pyinstaller-action-linux@main
-      with:
-        path: .
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+          architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+          cache: 'pip'
+          cache-dependency-path: |
+            **/requirements*.txt
+      # Install dependencies
+      - name: Install Dependencies
+        run: |
+          pip install -r requirements.txt
+      - name: Install Pyinstaller
+        run: |
+          pip install pyinstaller
+      - name: build package
+        run: |
+          pyinstaller --log-level=WARN \
+            --onefile --nowindow \
+            --add-data="bell.png:." \
+            --add-data="notif.wav:." \
+            --clean --noconfirm \
+            --icon=bell.png \
+            --noconsole --windowed \
+            --hiddenimport=tkinter \ 
+            pinger-gui
 
-    - uses: actions/upload-artifact@v2
-      with:
-        name: pinger
-        path: dist/linux
+    #  uses: JackMcKew/pyinstaller-action-linux@main
+    #  with:
+    #    path: .
+      - name: "Upload Artifacts"
+        uses: actions/upload-artifact@v2
+        with:
+          name: pinger
+          path: dist/pinger-gui
