@@ -41,7 +41,7 @@ jobs:
             --clean --noconfirm \
             --icon=bell.png \
             --noconsole --windowed \
-            --hiddenimport=tkinter \ 
+            --hiddenimport=tkinter \
             pinger-gui
 
     #  uses: JackMcKew/pyinstaller-action-linux@main
